@@ -1,12 +1,10 @@
-FROM centos:8
+FROM alpine:3.12.1
 
-RUN dnf install -y \
+RUN apk add --no-cache \
+        g++ \
         gcc \
         git \
-        gcc-c++ \
-        make \
-        &&\
-    dnf clean all
+        make
 
 WORKDIR /work
 
@@ -17,7 +15,9 @@ RUN git clone https://github.com/google/zopfli.git && \
     cd /work && \
     rm -fr /work/zopfli/
 
-ADD kai_zopflipng.sh /usr/local/bin/
+COPY ./*.sh /usr/local/bin/
 RUN chmod +x /usr/local/bin/kai_zopflipng.sh
 
-ENTRYPOINT [ "/usr/local/bin/kai_zopflipng.sh" ]
+ENV ZOPFLIPNG /usr/local/bin/zopflipng
+
+ENTRYPOINT ["/usr/local/bin/kai_zopflipng.sh" ]
