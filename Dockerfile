@@ -11,7 +11,7 @@ WORKDIR /work
 
 RUN git clone https://github.com/google/zopfli.git && \
     cd /work/zopfli/ && \
-    make -j 2 && \
+    CFLAGS=-static make -j 2 && \
     cp -p zopfli zopflipng /usr/local/bin/ && \
     cd /work && \
     rm -fr /work/zopfli/
